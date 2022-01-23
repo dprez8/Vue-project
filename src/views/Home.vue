@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <b-container>
+  <b-row align-v="center">
+    <job-card v-for="job in jobs" :key="job.id" :name="job.name"></job-card>
+  </b-row>
+</b-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import JobCard from '@/components/job-card.vue';
 
 export default {
   name: "Home",
-  components: {
-    HelloWorld,
+  components: {"job-card": JobCard},
+  mounted(){
+    this.fetchData();
   },
+  data(){
+    return {
+      jobs: []
+    }
+  },
+  methods:{
+    async fetchData(){
+      const res = await fetch("jobs.json");
+      const val = await res.json();
+      this.jobs=val;
+      console.log(val);
+    }
+  }
 };
 </script>
